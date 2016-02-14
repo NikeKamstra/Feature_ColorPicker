@@ -10,7 +10,7 @@ package ColorPicker
 	{
 		private var c_ColorSwatch:Sprite = new Sprite();
 		
-		public function ColorIndicator(width:int, height:int, color:uint = 0x888888) 
+		public function ColorIndicator(width:int, height:int, color:uint = 0x808080) 
 		{
 			graphics.beginFill(0x000000);
 			graphics.drawRect(0, 0, width, height);

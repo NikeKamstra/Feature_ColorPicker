@@ -16,7 +16,7 @@ package ColorPicker
 		private var c_MinX:int;
 		private var c_MaxX:int;
 		
-		public var c_CurrentPercentage:int = 0;
+		public var c_CurrentPercentage:Number = 0;
 		public var c_Color:int;
 		
 		
@@ -32,8 +32,6 @@ package ColorPicker
 			
 			c_Color = color;
 			
-			AlterColor(color, alpha);
-			
 			c_MinX = minXPosition;
 			c_MaxX = maxXPosition;
 			
@@ -48,6 +46,11 @@ package ColorPicker
 		}
 		
 		private function addedToStageHandler(e:Event):void {
+			var parentColor:uint = (parent.parent as ColorPicker).c_CurrentColor;
+			c_CurrentPercentage = ColorCalc.GetPercentageOfColorInColor(c_Color, parentColor);
+			AlterColor(ColorCalc.GetColorByPercentage(c_Color, c_CurrentPercentage));
+			
+			x = (c_MaxX - c_MinX) * c_CurrentPercentage + c_MinX;
 			stage.addEventListener(MouseEvent.MOUSE_UP, StopDragging);
 		}
 		
@@ -60,9 +63,9 @@ package ColorPicker
 				else if (x > c_MaxX) 
 					x = c_MaxX;
 					
-				var percentage:int = 100 * (x - c_MinX) / (c_MaxX - c_MinX);
+				var percentage:Number = (x - c_MinX) / (c_MaxX - c_MinX);
 				if (percentage != c_CurrentPercentage) {
-					AlterColor(ColorCalc.GetPercentageOfColor(c_Color, percentage));
+					AlterColor(ColorCalc.GetColorByPercentage(c_Color, percentage));
 					c_CurrentPercentage = percentage;
 				}
 			}

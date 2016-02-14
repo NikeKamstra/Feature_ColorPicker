@@ -12,18 +12,27 @@ package
 			
 		}
 		
-		public static function GetPercentageOfColor(color:uint, percentage:int = 100):uint {
+		public static function GetColorByPercentage(color:uint, percentage:Number = 1):uint {
 			if (percentage < 0) {
 				return 0;
 			}
-			var r:uint = ((color >> 16) & 0xFF) * percentage / 100;
-			var g:uint = ((color >> 8) & 0xFF) * percentage / 100;
-			var b:uint = (color) & 0xFF * percentage / 100;
+			var r:uint = ((color >> 16) & 0xFF) * percentage;
+			var g:uint = ((color >> 8) & 0xFF) * percentage;
+			var b:uint = (color) & 0xFF * percentage;
 			
 			if(r > 255 || g > 255 || b > 255)
 				return ReduceColorOverFlow(r, g, b);
 			
 			return ((r<<16)|(g<<8)|b);
+		}
+		
+		//very hard to name these parameters. fullColor is the color that gets checked for how much it is containing variableColor
+		public static function GetPercentageOfColorInColor(variableColor:uint, fullColor:uint):Number {
+			var rPercentage:Number = ((fullColor >> 16) & 0xFF) / ((variableColor >> 16) & 0xFF);
+			var gPercentage:Number = ((fullColor >> 8) & 0xFF) / ((variableColor >> 8) & 0xFF);
+			var bPercentage:Number = (fullColor & 0xFF) / (variableColor & 0xFF);
+			
+			return (rPercentage < gPercentage && rPercentage < bPercentage) ? rPercentage : (gPercentage < bPercentage) ? gPercentage : bPercentage;
 		}
 		
 		/*public static function GradientColorAtPosition(gradientData:GradientData, position:int):uint {
