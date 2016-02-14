@@ -10,7 +10,7 @@ package ColorPicker
 		
 		public function Background(width:int, height:int) 
 		{
-			graphics.beginFill(0x888888);
+			graphics.beginFill(0x888888, 0.75);
 			graphics.drawRect(0, 0, width, height);
 			graphics.endFill();
 		}
